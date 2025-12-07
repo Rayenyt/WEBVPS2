@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BELLA VPS - Professional Cloud</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body{background:#020617;color:#fff;font-family:Arial}
+nav{background:#020617;box-shadow:0 0 20px #000}
+.hero{background:radial-gradient(circle,#2563eb,#020617);padding:130px 20px;text-align:center}
+.hero span{color:#38bdf8}
+.card{background:#020617;border-radius:20px;box-shadow:0 0 25px #000;border:0}
+.btn-main{background:linear-gradient(135deg,#3b82f6,#2563eb);border-radius:30px;color:#fff}
+input,select{background:#020617!important;color:#fff!important;border:1px solid #334155}
+footer{background:#020617;padding:40px;text-align:center;color:#94a3b8}
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="#">BELLA VPS</a>
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+<div id="nav" class="collapse navbar-collapse">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" onclick="show('home')">Home</a></li>
+<li class="nav-item"><a class="nav-link" onclick="show('plans')">Plans</a></li>
+<li class="nav-item"><a class="nav-link" onclick="show('login')">Login</a></li>
+<li class="nav-item"><a class="nav-link" onclick="show('register')">Register</a></li>
+<li class="nav-item"><a class="nav-link text-warning" onclick="show('adminlogin')">Admin</a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+<!-- HOME -->
+<section id="home" class="hero">
+<h1 class="fw-bold">Powerful <span>Cloud VPS</span></h1>
+<p>Instant Deploy • Full Root • Ultra Fast</p>
+<button class="btn btn-main mt-3" onclick="show('plans')">View Plans</button>
+</section>
+
+<!-- PLANS -->
+<section id="plans" class="container py-5 hidden">
+<h2 class="text-center mb-4">VPS Plans</h2>
+<div class="row g-4 text-center">
+
+<div class="col-md-4">
+<div class="card p-4">
+<h4>Basic</h4>
+<p>2 vCPU • 2GB RAM • 40GB SSD</p>
+<h3>$5 / mo</h3>
+<button class="btn btn-main" onclick="order('Basic')">Order</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-4">
+<h4>Pro</h4>
+<p>4 vCPU • 8GB RAM • 100GB SSD</p>
+<h3>$12 / mo</h3>
+<button class="btn btn-main" onclick="order('Pro')">Order</button>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="card p-4">
+<h4>Ultra</h4>
+<p>8 vCPU • 16GB RAM • 200GB SSD</p>
+<h3>$25 / mo</h3>
+<button class="btn btn-main" onclick="order('Ultra')">Order</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="container py-5 hidden">
+<div class="row justify-content-center">
+<div class="col-md-5 card p-4">
+<h3 class="text-center">User Login</h3>
+<input id="luser" class="form-control mb-3" placeholder="Username">
+<input type="password" id="lpass" class="form-control mb-3" placeholder="Password">
+<button class="btn btn-main w-100" onclick="login()">Login</button>
+</div>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="container py-5 hidden">
+<div class="row justify-content-center">
+<div class="col-md-6 card p-4">
+<h3 class="text-center">Create Account</h3>
+<input id="ruser" class="form-control mb-3" placeholder="Username">
+<input id="rpass" type="password" class="form-control mb-3" placeholder="Password">
+<button class="btn btn-main w-100" onclick="register()">Register</button>
+</div>
+</div>
+</section>
+
+<!-- USER DASHBOARD -->
+<section id="dashboard" class="container py-5 hidden">
+<h3>User Dashboard</h3>
+<p>Welcome: <span id="userdata"></span></p>
+<div class="card p-4">
+<h5>Your VPS Orders</h5>
+<ul id="orders"></ul>
+</div>
+</section>
+
+<!-- ADMIN LOGIN -->
+<section id="adminlogin" class="container py-5 hidden">
+<div class="row justify-content-center">
+<div class="col-md-4 card p-4">
+<h3>Admin Login</h3>
+<input id="auser" class="form-control mb-3" placeholder="Admin">
+<input type="password" id="apass" class="form-control mb-3" placeholder="Password">
+<button class="btn btn-danger w-100" onclick="adminLogin()">Login</button>
+</div>
+</div>
+</section>
+
+<!-- ADMIN PANEL -->
+<section id="adminpanel" class="container py-5 hidden">
+<h3>Admin Control Panel</h3>
+<div class="card p-4">
+<h5>All Orders</h5>
+<ul id="allorders"></ul>
+</div>
+</section>
+
+<footer>
+© 2025 BELLA VPS • All rights reserved
+</footer>
+
+<script>
+let users=[],orders=[];
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+function register(){
+users.push({u:ruser.value,p:rpass.value});
+alert("Account Created ✅");
+show('login');
+}
+
+function login(){
+let u=users.find(x=>x.u==luser.value && x.p==lpass.value);
+if(u){
+localStorage.setItem("user",u.u);
+show('dashboard');
+userdata.innerText=u.u;
+}else alert("Login Failed");
+}
+
+function order(plan){
+let user=localStorage.getItem("user");
+if(!user){alert("Login First");show('login');return;}
+orders.push({user:user,plan:plan});
+ordersList();
+alert("VPS Ordered ✅");
+}
+
+function ordersList(){
+ordersBox="";
+document.getElementById("orders").innerHTML="";
+orders.forEach(o=>{
+if(o.user==localStorage.getItem("user"))
+document.getElementById("orders").innerHTML+="<li>"+o.plan+"</li>";
+});
+}
+
+function adminLogin(){
+if(auser.value=="admin" && apass.value=="admin123"){
+show('adminpanel');
+document.getElementById("allorders").innerHTML="";
+orders.forEach(o=>{
+allorders.innerHTML+="<li>"+o.user+" - "+o.plan+"</li>";
+});
+}else alert("Admin login failed");
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
